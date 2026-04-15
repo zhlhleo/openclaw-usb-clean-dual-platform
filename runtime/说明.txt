@@ -1,0 +1,7 @@
+可选目录：放置 `node.exe`
+
+说明：
+
+1. 如果目标 Windows 电脑没有安装系统 Node.js，可把可用的 Windows `node.exe` 放到这个目录。
+2. 启动器会优先使用 `runtime/node.exe`。
+3. 如果这里没有 `node.exe`，会自动回退到系统 Node.js。

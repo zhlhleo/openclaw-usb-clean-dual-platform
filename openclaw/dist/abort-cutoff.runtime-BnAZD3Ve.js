@@ -1,0 +1,60 @@
+import "./logger-CoEtkjhn.js";
+import "./paths-GHJ97ebE.js";
+import "./tmp-openclaw-dir-idKIOMmb.js";
+import "./theme-CdOoMzRk.js";
+import "./globals-41sdSaKv.js";
+import "./subsystem-VzQeL-96.js";
+import "./ansi-BEJF8NKS.js";
+import "./boolean-C3GkJetE.js";
+import "./env-mRJH5TpF.js";
+import "./utils-seFh26xW.js";
+import "./boundary-path-Dm0QJ7-y.js";
+import "./boundary-file-read-BGs2p0f_.js";
+import "./logger-DtlnPe_E.js";
+import "./exec-BnXF7JCz.js";
+import "./workspace-DFURCHD1.js";
+import "./agent-scope-D8nGiwMS.js";
+import "./model-selection-JWhBHRyf.js";
+import "./io-Cu_7vv9A.js";
+import "./host-env-security-Du6GREqL.js";
+import "./shell-env-CcwPX9am.js";
+import "./safe-text-D1ZwCSxe.js";
+import "./version-CMPQj7au.js";
+import "./env-substitution-BW_YpYTT.js";
+import "./includes-DlCBNZMw.js";
+import "./zod-schema.providers-core-CAJFPAb3.js";
+import "./legacy-web-search-Cl_mGN-q.js";
+import "./registry-BYdGgYCt.js";
+import "./config-state-DM5O57m7.js";
+import "./manifest-registry-BYh_hnWR.js";
+import "./avatar-policy-ByRUKg_o.js";
+import "./ip-CndEBNxP.js";
+import "./zod-schema.agent-runtime-BLp4Fcyb.js";
+import "./zod-schema.core-DICsKVAU.js";
+import "./config-CLN6d0um.js";
+import "./message-channel-Df2WMfuH.js";
+import { l as updateSessionStore } from "./store-BGDAPyDm.js";
+import "./runtime-C8dQugND.js";
+import "./registry-BjRjosRJ.js";
+import "./plugins-Cr3w-NCx.js";
+import "./paths-DTrmv0TT.js";
+import "./session-write-lock-D8cHa_Rz.js";
+import { n as hasAbortCutoff, t as applyAbortCutoffToSessionEntry } from "./abort-cutoff-r-N3I7eA.js";
+//#region src/auto-reply/reply/abort-cutoff.runtime.ts
+async function clearAbortCutoffInSessionRuntime(params) {
+	const { sessionEntry, sessionStore, sessionKey, storePath } = params;
+	if (!sessionEntry || !sessionStore || !sessionKey || !hasAbortCutoff(sessionEntry)) return false;
+	applyAbortCutoffToSessionEntry(sessionEntry, void 0);
+	sessionEntry.updatedAt = Date.now();
+	sessionStore[sessionKey] = sessionEntry;
+	if (storePath) await updateSessionStore(storePath, (store) => {
+		const existing = store[sessionKey] ?? sessionEntry;
+		if (!existing) return;
+		applyAbortCutoffToSessionEntry(existing, void 0);
+		existing.updatedAt = Date.now();
+		store[sessionKey] = existing;
+	});
+	return true;
+}
+//#endregion
+export { clearAbortCutoffInSessionRuntime };

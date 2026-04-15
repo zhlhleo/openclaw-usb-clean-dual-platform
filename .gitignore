@@ -1,0 +1,6 @@
+.DS_Store
+openclaw-data/.openclaw/
+openclaw-data/workspace/
+openclaw-data/tmp/
+openclaw-data/setup.json
+openclaw-data/*.log

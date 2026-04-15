@@ -1,0 +1,62 @@
+import type { OpenClawConfig } from "../config/config.js";
+import type { AgentModelEntryConfig } from "../config/types.agent-defaults.js";
+import type { ModelApi, ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.js";
+export type AgentModelAliasEntry = string | {
+    modelRef: string;
+    alias?: string;
+};
+export declare function withAgentModelAliases(existing: Record<string, AgentModelEntryConfig> | undefined, aliases: readonly AgentModelAliasEntry[]): Record<string, AgentModelEntryConfig>;
+export declare function applyOnboardAuthAgentModelsAndProviders(cfg: OpenClawConfig, params: {
+    agentModels: Record<string, AgentModelEntryConfig>;
+    providers: Record<string, ModelProviderConfig>;
+}): OpenClawConfig;
+export declare function applyAgentDefaultModelPrimary(cfg: OpenClawConfig, primary: string): OpenClawConfig;
+export declare function applyProviderConfigWithDefaultModels(cfg: OpenClawConfig, params: {
+    agentModels: Record<string, AgentModelEntryConfig>;
+    providerId: string;
+    api: ModelApi;
+    baseUrl: string;
+    defaultModels: ModelDefinitionConfig[];
+    defaultModelId?: string;
+}): OpenClawConfig;
+export declare function applyProviderConfigWithDefaultModel(cfg: OpenClawConfig, params: {
+    agentModels: Record<string, AgentModelEntryConfig>;
+    providerId: string;
+    api: ModelApi;
+    baseUrl: string;
+    defaultModel: ModelDefinitionConfig;
+    defaultModelId?: string;
+}): OpenClawConfig;
+export declare function applyProviderConfigWithDefaultModelPreset(cfg: OpenClawConfig, params: {
+    providerId: string;
+    api: ModelApi;
+    baseUrl: string;
+    defaultModel: ModelDefinitionConfig;
+    defaultModelId?: string;
+    aliases?: readonly AgentModelAliasEntry[];
+    primaryModelRef?: string;
+}): OpenClawConfig;
+export declare function applyProviderConfigWithDefaultModelsPreset(cfg: OpenClawConfig, params: {
+    providerId: string;
+    api: ModelApi;
+    baseUrl: string;
+    defaultModels: ModelDefinitionConfig[];
+    defaultModelId?: string;
+    aliases?: readonly AgentModelAliasEntry[];
+    primaryModelRef?: string;
+}): OpenClawConfig;
+export declare function applyProviderConfigWithModelCatalog(cfg: OpenClawConfig, params: {
+    agentModels: Record<string, AgentModelEntryConfig>;
+    providerId: string;
+    api: ModelApi;
+    baseUrl: string;
+    catalogModels: ModelDefinitionConfig[];
+}): OpenClawConfig;
+export declare function applyProviderConfigWithModelCatalogPreset(cfg: OpenClawConfig, params: {
+    providerId: string;
+    api: ModelApi;
+    baseUrl: string;
+    catalogModels: ModelDefinitionConfig[];
+    aliases?: readonly AgentModelAliasEntry[];
+    primaryModelRef?: string;
+}): OpenClawConfig;
