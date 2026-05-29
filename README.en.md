@@ -8,7 +8,9 @@ A dual-platform portable OpenClaw package for Windows and Apple Silicon macOS.
 
 For regular users, download the complete package from GitHub Releases:
 
-- `openclaw-usb-clean-dual-platform.zip`
+- [Download the complete ZIP package: openclaw-usb-clean-dual-platform.zip](https://github.com/zhlhleo/openclaw-usb-clean-dual-platform/releases/download/v0.1.0/openclaw-usb-clean-dual-platform.zip)
+
+You can also open the [Release page](https://github.com/zhlhleo/openclaw-usb-clean-dual-platform/releases/tag/v0.1.0) and download the ZIP from the `Assets` section.
 
 After downloading, unzip it to a USB drive, portable SSD, or local directory and run the launcher for your platform.
 

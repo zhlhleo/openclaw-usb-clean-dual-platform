@@ -8,7 +8,9 @@
 
 推荐从 GitHub Releases 下载完整 ZIP 包：
 
-- `openclaw-usb-clean-dual-platform.zip`
+- [点击下载完整 ZIP 包：openclaw-usb-clean-dual-platform.zip](https://github.com/zhlhleo/openclaw-usb-clean-dual-platform/releases/download/v0.1.0/openclaw-usb-clean-dual-platform.zip)
+
+也可以打开 [Release 页面](https://github.com/zhlhleo/openclaw-usb-clean-dual-platform/releases/tag/v0.1.0)，在 `Assets` 区域下载 ZIP。
 
 下载后解压到 U 盘、移动硬盘或本地目录即可使用。仓库源码页也包含完整文件结构，但 Releases 中的 ZIP 更适合普通用户直接下载和分发。
 
