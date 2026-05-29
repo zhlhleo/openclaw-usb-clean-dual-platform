@@ -1,112 +1,107 @@
-# OpenClaw USB Clean Dual Platform
+# OpenClaw USB Clean 双平台便携包
 
-A dual-platform portable OpenClaw package for:
+这是一个面向 Windows 和 Apple Silicon macOS 的 OpenClaw 双平台便携包。仓库内容按照可直接复制到 U 盘或移动硬盘的结构整理，用户可以在 Windows 与 macOS 之间共用同一份 `openclaw-data/` 数据目录。
 
-- Windows
+[English README](./README.en.md)
+
+## 下载
+
+推荐从 GitHub Releases 下载完整 ZIP 包：
+
+- `openclaw-usb-clean-dual-platform.zip`
+
+下载后解压到 U 盘、移动硬盘或本地目录即可使用。仓库源码页也包含完整文件结构，但 Releases 中的 ZIP 更适合普通用户直接下载和分发。
+
+## 功能特点
+
+- 同一个包同时支持 Windows 和 Apple Silicon macOS。
+- Windows 端可直接运行便携版启动器。
+- macOS 端使用本地缓存机制，避免直接从 `exFAT` U 盘运行应用导致的兼容性问题。
+- Windows 和 macOS 共用 `openclaw-data/`，便于在不同设备之间继续使用同一份配置和会话数据。
+- 内置 OpenClaw 主程序、运行时和微信插件包。
+- 可按需删除某个平台不需要的文件，保留单平台版本。
+
+## 支持平台
+
+- Windows x64
 - Apple Silicon macOS
 
-This repository is structured as a ready-to-share USB package layout.
+macOS 版本未签名，首次运行时可能需要右键打开，或在系统安全设置中允许该应用运行。
 
-## Features
+## 文件结构
 
-- One package for both Windows and macOS
-- Shared `openclaw-data/` across both platforms
-- Windows launcher runs directly from the package
-- macOS launcher uses a local runtime cache for better compatibility on `exFAT`
-- Shared OpenClaw payload
-- Shared WeChat plugin package
+| 路径 | 说明 |
+| --- | --- |
+| `OpenClaw USB Clean-0.1.0-Windows-Portable.exe` | Windows 便携启动器 |
+| `Launch-OpenClaw-Mac.command` | macOS 启动脚本 |
+| `Force-Quit-OpenClaw-Mac.command` | macOS 强制退出辅助脚本 |
+| `openclaw/` | OpenClaw 主程序文件 |
+| `runtime/` | Windows 端内置 Node.js 运行时 |
+| `mac-payload/` | macOS 应用和运行时缓存源文件 |
+| `openclaw-data/` | Windows 与 macOS 共用的数据目录 |
+| `weixin-plugin.zip` | 微信插件包 |
+| `USER_GUIDE.md` | 英文用户指南 |
 
-## Included Files
+## Windows 使用方法
 
-- `OpenClaw USB Clean-0.1.0-Windows-Portable.exe`
-  Windows launcher
-- `Launch-OpenClaw-Mac.command`
-  macOS launcher entrypoint
-- `Force-Quit-OpenClaw-Mac.command`
-  macOS force-stop helper
-- `openclaw/`
-  Shared OpenClaw payload
-- `runtime/`
-  Bundled Windows Node runtime
-- `mac-payload/`
-  Archived macOS app payload and runtime cache source
-- `openclaw-data/`
-  Shared persistent data directory
-- `weixin-plugin.zip`
-  Shared WeChat plugin package
+1. 将完整目录解压或复制到目标位置。
+2. 双击运行 `OpenClaw USB Clean-0.1.0-Windows-Portable.exe`。
+3. 按启动器提示完成首次配置。
+4. 后续使用时继续运行同一个 `.exe` 文件即可。
 
-## How It Works
+Windows 端会直接使用当前目录中的文件，并将数据保存在 `openclaw-data/` 中。
 
-### Windows
+## macOS 使用方法
 
-Run:
+1. 将完整目录解压或复制到目标位置。
+2. 双击运行 `Launch-OpenClaw-Mac.command`。
+3. 如果系统阻止运行，请右键该脚本并选择“打开”，或在系统安全设置中允许它运行。
+4. 首次在某台 Mac 上运行时，脚本会将 macOS 应用和运行时解压到本机缓存。
+5. 后续在同一台 Mac 上运行时，通常会复用已有缓存。
 
-```bash
-OpenClaw USB Clean-0.1.0-Windows-Portable.exe
-```
-
-The Windows launcher runs directly from the USB package and stores data in `openclaw-data/`.
-
-### macOS
-
-Run:
-
-```bash
-Launch-OpenClaw-Mac.command
-```
-
-The macOS launcher does not run the app directly from the USB package. Instead it:
-
-1. Reads the payload from `mac-payload/`
-2. Builds or refreshes a local cache on the current Mac
-3. Launches the cached app locally
-4. Keeps shared data on the USB package in `openclaw-data/`
-
-Local cache path on macOS:
+macOS 本地缓存路径：
 
 ```bash
 ~/Library/Caches/OpenClaw USB Clean Cache
 ```
 
-## Shared Data
+共享数据仍然保存在当前包内的：
 
-`openclaw-data/` is shared between Windows and macOS.
+```bash
+openclaw-data/
+```
 
-This allows a user to:
+## 工作原理
 
-1. Use the package on Windows
-2. Move to macOS with the same USB package
-3. Continue using the same configuration and session data
+Windows 端从当前目录直接启动便携程序，并读取同目录下的 OpenClaw 文件、运行时和共享数据。
 
-## Platform Notes
+macOS 端不会直接从 U 盘运行应用，而是：
 
-### Windows
+1. 读取 `mac-payload/` 中的压缩载荷。
+2. 在当前 Mac 上创建或刷新本地缓存。
+3. 从本地缓存启动 macOS 应用。
+4. 继续把用户数据保存在包内的 `openclaw-data/`。
 
-Recommended file system:
-- `NTFS`
-- `exFAT` if you also want macOS-readable storage
+这种方式更适合双平台 U 盘，尤其是使用 `exFAT` 文件系统时。
 
-### macOS
+## 存储设备建议
 
-Recommended file system for a Mac-only package:
-- `APFS`
+- 最低：`32GB`、`USB 3.0`
+- 推荐：`64GB+`、`USB 3.0 / 3.1 / 3.2`
+- 大型工作区：`128GB+`
+- 更稳定的选择：移动固态硬盘
 
-For this dual-platform package:
-- `exFAT` is recommended
-- macOS uses the cached-launch approach to avoid running the app directly from the USB package
+## 文件系统建议
 
-## Hardware Recommendations
+如果只在 macOS 使用，推荐 `APFS`。
 
-- Minimum: `32GB`, `USB 3.0`
-- Recommended: `64GB+`, `USB 3.0 / 3.1 / 3.2`
-- For larger workspaces: `128GB+`
-- Best stability: portable SSD
+如果需要 Windows 和 macOS 共用同一个盘，推荐 `exFAT`。macOS 启动脚本已经采用本地缓存机制，以减少直接从 `exFAT` 运行应用时可能遇到的问题。
 
-## Keep / Remove by Platform
+## 只保留单个平台
 
-### Keep Windows only
+### 只保留 Windows
 
-Keep:
+保留：
 
 - `OpenClaw USB Clean-0.1.0-Windows-Portable.exe`
 - `runtime/`
@@ -114,15 +109,15 @@ Keep:
 - `openclaw-data/`
 - `weixin-plugin.zip`
 
-You may remove:
+可以删除：
 
 - `Launch-OpenClaw-Mac.command`
 - `Force-Quit-OpenClaw-Mac.command`
 - `mac-payload/`
 
-### Keep macOS only
+### 只保留 macOS
 
-Keep:
+保留：
 
 - `Launch-OpenClaw-Mac.command`
 - `Force-Quit-OpenClaw-Mac.command`
@@ -131,20 +126,18 @@ Keep:
 - `openclaw-data/`
 - `weixin-plugin.zip`
 
-You may remove:
+可以删除：
 
 - `OpenClaw USB Clean-0.1.0-Windows-Portable.exe`
 - `runtime/`
 
-## Important Notes
+## 注意事项
 
-- The macOS build is unsigned
-- First macOS launch may require:
-  - right-click Open
-  - or allowing the app in macOS Security settings
-- Do not remove `openclaw/`, `openclaw-data/`, or `weixin-plugin.zip` if you want both platforms to keep working
-- On macOS, local cache files remain on each Mac until manually removed
+- 不要在 OpenClaw 运行时拔出 U 盘或移动硬盘。
+- 不要删除 `openclaw/`、`openclaw-data/` 或 `weixin-plugin.zip`，否则双平台使用可能失效。
+- macOS 本地缓存会保留在每台运行过该包的 Mac 上，需要时可手动清理。
+- macOS 应用未签名，首次运行可能需要手动允许。
 
-## User Guide
+## 用户指南
 
-See [USER_GUIDE.md](./USER_GUIDE.md) for the full guide.
+更多细节请查看 [USER_GUIDE.md](./USER_GUIDE.md)。
